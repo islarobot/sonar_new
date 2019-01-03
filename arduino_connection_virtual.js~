@@ -1,8 +1,5 @@
 var arduino_functions = require('./arduino_functions.js');
 
-var m1 = require('./server.js');
-
-
 process.env.NODE_ENV = 'development';
 
 var SerialPort = require('serialport');
@@ -42,18 +39,13 @@ sp.on('open', function (err) {
  
  
 //envio data del pc al arduino:
-
+		
 //aqui escucho un evento que viene del servidor http y escribo al arduino. como lo hago? ni puta idea. 
  
 //  sp.write(0); // "From Arduino: BLOOP BLOOP!"
 
-m1.on("data_out", function(data) {
 
-    console.log('lo que viene de server y se envia a ardu: '+data);
-  
-    // process data when someEvent occurs
-    
     sp.write(data);
-});
+
 
 });
