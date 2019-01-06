@@ -1,7 +1,32 @@
+<script src="javascript_functions.js"></script>  
 <script src="/socket.io/socket.io.js"></script>  
 <script>  
-    var socket = io.connect('/');
-    socket.emit('event', { message: 'Hey, I have an important message!' });
+    var socket = io.connect('localhost:8080/');
+  
+  	i=-180;
+  
+  setInterval(function(){ 
+  socket.emit('event', { message: i });
+  console.log(i);
+  i++;
+  if (i==181) {i=-180;}
+  
+   }, 1000);
+
+  a=0;  
+  while (a<1) {
+  	
+	i=-180;
+  	
+  	console.log(i);
+  		socket.emit('event', { message: i });
+  
+  i=i+1;
+  console.log(i);
+  if (i==181) {i=-180;}
+  }
+    
+    
 
     socket.on('announcements', function(data) {
         console.log('Got announcement:', data.message);
