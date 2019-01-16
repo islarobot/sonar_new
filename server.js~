@@ -7,10 +7,13 @@ var io = require('socket.io')(server);
 var ipc=require('node-ipc');
 
 
-var global_socket;
+var global_socket_ipc;
+var global_socket_http;
+var connection_stablished=0;
  
 ipc.config.id   = 'world';
 ipc.config.retry= 1500;
+ipc.config.silent = true;
 
 
 app.get('/', function(req, res) {  
@@ -21,13 +24,19 @@ server.listen(8080);
 
 
 io.on('connection', function(socket) {  
-    socket.emit('announcements', { message: 'A new user has joined!' });
+
+	global_socket_http = socket;
+    //socket.emit('announcements', { message: 'A new user has joined!' });
+
+/////// RECIBO DE HTML
 
     socket.on('event', function(data) {
-        console.log('html client: ', data.message);
-        
-        ipc.server.emit(global_socket,'message','222');
-        
+        console.log('--> 1 --> ', data);
+
+        if (connection_stablished==1) {
+			ipc.server.emit(global_socket_ipc,'message',data.message);
+			//console.log('envio'+data.message)
+        }
         
         
     });
@@ -43,15 +52,22 @@ ipc.server.on('start',function(){console.log('start');});
 
 ipc.server.on('connect',function(socket){
 	
-ipc.server.emit(socket,'message','111');
+//ipc.server.emit(socket,'message','CONECTADO!!!!');
 
-global_socket = socket;
+global_socket_ipc = socket;
+connection_stablished = 1;
 
 });
 
 
 
+ipc.server.on('message',function(data){
+	
+console.log('---> 7 ----> '+data);
 
+    global_socket_http.emit('stream', data);
+
+});
     
     
     
