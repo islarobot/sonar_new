@@ -48,7 +48,7 @@ sp.on('open', function (err) {
  
 sp.on("data", function(data) {
 	
-	data_out_2 = arduino_functions.funcion_conversion_ardu_node(data,"data","decimal");
+	data_out_2 = arduino_functions.funcion_conversion_ardu_node(data,"data","A");
   	
     console.log("---> 6 ---->  " + data_out_2);
     ipc.of.world.emit('message',data_out_2);

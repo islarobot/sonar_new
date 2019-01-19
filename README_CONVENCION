@@ -15,8 +15,10 @@ value: 'string'
 
 {
 mode: data,
-type: 'string','integer','decimal'
-
+inputParam: 'A',
+inputValue: 12,
+outputParam: 'A',
+outputValue: 1.222
 }
 
 

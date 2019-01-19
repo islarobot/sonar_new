@@ -3,7 +3,7 @@
     <head>
         <title>Project Sonar</title>
 		<script src="http://localhost:8080/socket.io/socket.io.js"></script>    
-        <script type="text/javascript" src="sonar.js"></script>
+        <script type="text/javascript" src="sonar_new.js"></script>
 
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script> 
         
@@ -137,21 +137,21 @@
 	
 		var values_items = {
         	
-        		angle:90, min:-90, max:90, param_in:"A", state:"set", speed_transmision:100
+        		min:-90, max:90, param_in:"A", state:"set", speed_transmision:100
         		
         		}
 	
-		      //funcion que setea los campos del formulario (texto y botones)
+		      //funcion que setea los camposdel formulario (texto y botones)
 		        
         hide_fields_show_values_sonar(values_items);  
         
-			var lastvalue = -9999999;   
-			var lastvalue2 = '';
+			//var lastvalue = -9999999;   
+			//var lastvalue2 = '';
 			//var direction;
 			 
-			var o = 0; 
-			var last_dir = '';
-			var contact_array = {}			
+			//var o = 0; 
+			//var last_dir = '';
+			//var contact_array = {}			
 				
         
             var socket = io.connect("localhost:8080"); 
@@ -171,7 +171,7 @@
 				
 				var direccion = 'r';
 
-				var contact_array;
+				//var contact_array;
 				
 				setInterval(function(){ 
 	 
@@ -198,38 +198,41 @@
             
             
 				//recibo mensajes del servidor!!!            
+            
+            
             socket.on("stream",function(message){  
                
 						//console.log('---> 8 ----> '+message)
 
-					var contact_value = 0
+
 
                 msg_in = JSON.parse(message);
                 
-					//document.getElementById("content").innerHTML = message.value_number;
+
 					
 					//filtro por parámetro
+					
 					var param_received = msg_in.inputParam;					
 					
 					if (param_received == values_items.param_in) {
 					
-					//console.log("hola")
+
 					
 						var angle1 = msg_in.inputAngle;
 						
-						//if (angle1 < 0) {angle1 = 2*angle1 - 720;}
+
 						
-					   console.log(angle1)						
+
 						
 						var direccion1 = msg_in.inputDirection;
 						
 						var valor = msg_in.outputValue;
 						
-						var longitud = values_items.max - values_items.min;
+
 						
 						if (contact_value != 0) {
 					
-						contact_array[''+angle_show] = valor;					
+						contact_array[''+angle_show] = 1;					
 						}
 						 
 						//console.log(angle1)

@@ -27,3 +27,8 @@ https://www.w3schools.com/js/js_objects.asp
 
 objeto:
 var car = {type:"Fiat", model:"500", color:"white"};
+
+
+object to json
+
+var myJSON = JSON.stringify(obj);

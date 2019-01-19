@@ -3,7 +3,7 @@
     <head>
         <title>Project Sonar</title>
 		<script src="http://localhost:8080/socket.io/socket.io.js"></script>    
-        <script type="text/javascript" src="sonar.js"></script>
+        <script type="text/javascript" src="sonar_new.js"></script>
 
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script> 
         
@@ -137,23 +137,15 @@
 	
 		var values_items = {
         	
-        		angle:90, min:-90, max:90, param_in:"A", state:"set", speed_transmision:100
+        		min:-90, max:90, param_in:"A", state:"set", speed_transmision:100
         		
         		}
 	
-		      //funcion que setea los campos del formulario (texto y botones)
+		      //funcion que setea los camposdel formulario (texto y botones)
 		        
         hide_fields_show_values_sonar(values_items);  
         
-			var lastvalue = -9999999;   
-			var lastvalue2 = '';
-			//var direction;
-			 
-			var o = 0; 
-			var last_dir = '';
-			var contact_array = {}			
-				
-        
+       
             var socket = io.connect("localhost:8080"); 
             /*Initializing the connection with the server via websockets */
             
@@ -171,7 +163,7 @@
 				
 				var direccion = 'r';
 
-				var contact_array;
+            // pintar canvas básico.
 				
 				setInterval(function(){ 
 	 
@@ -198,106 +190,61 @@
             
             
 				//recibo mensajes del servidor!!!            
+            
+            
             socket.on("stream",function(message){  
                
 						//console.log('---> 8 ----> '+message)
 
-					var contact_value = 0
+
 
                 msg_in = JSON.parse(message);
                 
-					//document.getElementById("content").innerHTML = message.value_number;
+
 					
 					//filtro por parámetro
+					
 					var param_received = msg_in.inputParam;					
 					
 					if (param_received == values_items.param_in) {
 					
-					//console.log("hola")
+
 					
 						var angle1 = msg_in.inputAngle;
 						
-						//if (angle1 < 0) {angle1 = 2*angle1 - 720;}
+
 						
-					   console.log(angle1)						
+
 						
 						var direccion1 = msg_in.inputDirection;
 						
 						var valor = msg_in.outputValue;
 						
-						var longitud = values_items.max - values_items.min;
-						
-						if (contact_value != 0) {
-					
-						contact_array[''+angle_show] = valor;					
-						}
-						 
-						//console.log(angle1)
-						
-						//mapeo input a ángulos
-						var angle = (angle1 - values_items.min) * (values_items.angle * 2) / (values_items.max - values_items.min) - values_items.angle 
-						angle_show = parseFloat(angle).toFixed(2);
-						//console.log(angle)
 
 
 					document.getElementById("content").innerHTML = angle1 + ' - ' + angle_show;
 					
 					contact_value = message.value_number;
+					
 					document.getElementById("content1").innerHTML = message.value_number;					
 					
 					drawmarcas_sonar('myCanvas', 1000, 980, 2000, 1050, values_items, 900, 10, 15, 12, 10, angle1, direccion1,contact_array,valor);
 			
 					
 					}
-						
-						if (angle1 > lastvalue) {
-							
-							direction = 'r';
-							
-							
-							
-						}else {
-							direction = 'l';
-							
-						}
-						
-						//console.log(direction)						
-						
-						if (direction != last_dir){
-						contact_array = {};
-
-						//alert(direction + ' - ' +  last_dir)
-						}						
-						
-						last_dir = direction;
-
-					var angle = (angle1 - values_items.min) * (values_items.angle * 2) / (values_items.max - values_items.min) - values_items.angle 
-					angle_show = parseFloat(angle).toFixed(2);				
-						
-					if (contact_value != 0) {
-					
-					contact_array[''+angle_show] = valor;					
-
 					}
 					
-					//console.log(angle + ' - ' + lastvalue2 + ' - ' + contact_array[''+angle_show])
+
 						
 					
 					
 					
 							
 					
-								
-				//	drawmarcas_sonar('myCanvas', 1000, 980, 2000, 1050, values_items, 900, 10, 15, 12, 10, angle, direction,contact_array,contact_value);
 					
 												
 									
-					
-					if (angle1 != lastvalue) {
-							
-							lastvalue = angle1;						
-							
-						} 
+				 
                 
   
 

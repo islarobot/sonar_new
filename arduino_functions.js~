@@ -2,12 +2,15 @@
 
 
 module.exports = {
-  generate_amplitude_function: function (degree) {
+  generate_amplitude_function: function (datos) {
     
+degree = JSON.parse(datos).inputAngle;   
     
   var rad = degree*3.1416/180
   
-  return 10*Math.sin(rad).toFixed(2)+10;
+  var value = 10*Math.sin(rad).toFixed(2)+10;
+    
+  return JSON.stringify({angle:degree,direccion:direccion,data:value});
     
   },
 
@@ -19,26 +22,31 @@ funcion_conversion_node_ardu: function(data)
 
 data_object = JSON.parse(data);
 
+//console.log("ssss")
+//console.log(data_object.inputAngle)
+
 var output;
 
 if (data_object.mode == 'data') {
 
-output = data_object.value;
+output = {inputAngle:data_object.inputAngle,inputDirection:data_object.inputDirection};
 	
 }
 
-return output;
+return JSON.stringify(output);
 
-}
-
-
+},
 
 
 
-funcion_conversion_ardu_node: function(data,mode,type)
+
+
+funcion_conversion_ardu_node: function(data,mode,param)
 {
 
-var output = {mode:mode,type:type,data:data};
+data_a = JSON.parse(data);
+
+var output = {mode:mode,inputParam:param,outputParam:param,inputAngle:data_a.angle,inputDirection:data_a.direccion,outputValue:data_a.data};
 
 var output_JSON = JSON.stringify(output);
 
