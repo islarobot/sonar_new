@@ -242,6 +242,7 @@ function drawmarcas_sonar(id, x, y, w, h, vl, radius, largopata, largotexto, del
 	context.fillStyle = 'white';
 	context.fillText('Angle: '+angle,10,20);
 	context.fillText('Direction: '+direc,10,40);	
+	context.fillText('Value: '+ashow,10,60);	
 		
 	//context.fillText('Value: '+z.toFixed(2),10,20);		
 	
