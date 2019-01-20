@@ -144,11 +144,11 @@
         		min:270, max:90, param_in:"A", state:"set", speed_transmision:100,min_value:0, max_value:10,
         		
         		x_circum:1000,y_circum:980,w_square:2000,h_square:1050,radius_circum:900,largo_pata:10,largo_texto:15,
-        		delta_negativos:12,resolucion:10,num_valores_delay:10
+        		delta_negativos:12,resolucion:10,num_valores_delay:10, resolucion_grados:0.5, speed_update:100
         		
         		}
         		
-			var stream = new Array(values_items.num_valores_delay);        		
+			var stream = new Array();        		
         		
 			canvas.width  = values_items.w_square;
 	canvas.height = values_items.h_square;;
@@ -196,8 +196,10 @@
   					
   					//cambio de direccion cuando llego al min y al max.
   					
-  					if (direccion=='r') {i++;}else {
-  						i--;
+  					if (direccion=='r') {
+  					i = i + values_items.resolucion_grados;
+  					}else {
+  						i = i - values_items.resolucion_grados;
   					}
   						//speed_transmision es la velocidad a la que envio los angulos al ardu en ms.
   					
@@ -229,7 +231,7 @@
 					
 									
 					
-					if (param_received == values_items.param_in && diferencia_abs < 2) {
+					if (param_received == values_items.param_in && diferencia_abs < 2*values_items.resolucion_grados) {
 					
 						last_angle = msg_in.inputAngle;
 						
@@ -249,14 +251,14 @@
 						var tres_valores = {angle:angle1,direccion:direccion1,valor:valor};
 						
 						stream.push(tres_valores);
-						console.log(stream);
+						//console.log(stream);
 						if (stream.length > values_items.num_valores_delay) {
 							stream.shift();
 						}
 						
-						//console.log('--1--:'+angle1);
+						//console.log(stream.length);
 						
-					draw_variable_lines(ctx,stream,values_items,);
+					
 
 					document.getElementById("content").innerHTML = angle1;
 					
@@ -268,29 +270,17 @@
 			
 					
 					}
+					});
 					
-				
+								setInterval(function(){ 
+								
+					draw_basic_lines(ctx,values_items);
+					
+					draw_variable_lines(ctx,stream,values_items);
 
-            });
+            }, values_items.speed_update);
             
-            $(function(){
-                $('#submit').click(function(){ /*listening to the button click using Jquery listener*/
 
-                    //var message_local = new classes.message_object('c6_clienteweb','c4_ardu','0','hola, ardu, soy clienteweb');
-                    var message_local = {
- 							origin:"c6_clienteweb",
- 							destination:"c4_ardu",
- 							type:"0",
- 							value_text:"hola ardu, soy clienteweb"
-                    }
-                    socket.send(JSON.stringify(message_local));
-
- 
-                    $('#message').val('');
-                    //Emptying the text box value using jquery
- 
-                });
-            });
  
  				
  				//drawmarcas_sonar('myCanvas', 1000, 980, 2000, 1050, values_items, 900, 10, 15, 12, 10);
