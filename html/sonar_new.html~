@@ -30,7 +30,19 @@
 }
     
     </style>
-    
+	<script type="text/javascript">
+		//parametros
+	var start = false;
+	var i = 0;	
+	function start_1() {
+		start = true;
+		i = 0;
+	}
+	function stop() {
+		start = false;
+		i = 0;
+	}
+	</script>    
     
     <body>
     
@@ -95,6 +107,18 @@
 		</tr>
 		<tr>
 		<td>
+		<button onclick="javascript:start_1()" id="start_button">Start</button>
+		
+		</td>
+		</tr>
+		<tr>
+		<td>
+		<button onclick="javascript:stop()" id="stop_button">Stop</button>
+		
+		</td>
+		</tr>
+		<tr>
+		<td>
 		
 
 <form>
@@ -133,9 +157,7 @@
     
 	<script type="text/javascript">
 	
-	//parametros
-	
-	
+
 	
 	var canvas = document.getElementById('myCanvas');
 
@@ -144,7 +166,7 @@
         		min:270, max:90, param_in:"A", state:"set", speed_transmision:100,min_value:0, max_value:10,
         		
         		x_circum:1000,y_circum:980,w_square:2000,h_square:1050,radius_circum:900,largo_pata:10,largo_texto:15,
-        		delta_negativos:12,resolucion:10,num_valores_delay:10, resolucion_grados:0.5, speed_update:100
+        		delta_negativos:12,resolucion:10,num_valores_delay:90, resolucion_grados:.5, speed_update:100
         		
         		}
         		
@@ -163,14 +185,14 @@
             /*Initializing the connection with the server via websockets */
             
 				//envío ángulos al arduino!!!
-				var min = -90;
+				var min = circumB2circumA(values_items.min);
 				var max = values_items.max;
 				//var speed = 1.75
 				//var freq = 0		
 				//var juan = 0	
 				
 				// i es la iteracion del angulo
-				var i = 0;
+
 				
 				//dir es la direccion
 				
@@ -188,7 +210,10 @@
 	 			
 	 			  var msg_out = {mode:"data",inputParam:values_items.param_in,inputAngle:i,inputDirection:direccion}
 	 			  var msg_json = JSON.stringify(msg_out);
-	 			  socket.emit('event', msg_json);
+	 			  if (start == true) {
+	 			  socket.emit('event', msg_json);	
+	 			  }
+	 			  
 	 			  //console.log('--0--'+msg_out.inputAngle)
   					
   					if (i>=max) {direccion = 'l';}
@@ -211,7 +236,7 @@
             
             socket.on("stream",function(message){  
                
-						//console.log('---> 8 ----> '+message)
+					console.log('---> 8 ----> '+message)
 	
 
 
@@ -248,17 +273,21 @@
 						
 						var valor = msg_in.outputValue.toFixed(2);
 						
+
 						var tres_valores = {angle:angle1,direccion:direccion1,valor:valor};
-						
 						stream.push(tres_valores);
+												
+
 						//console.log(stream);
 						if (stream.length > values_items.num_valores_delay) {
 							stream.shift();
 						}
+							
+						//console.log(stream.length);
 						
-						console.log(stream.length);
-						
+					draw_basic_lines(ctx,values_items);
 					
+					draw_variable_lines(ctx,stream,values_items);
 
 					document.getElementById("content").innerHTML = angle1;
 					
@@ -272,13 +301,7 @@
 					}
 					});
 					
-								setInterval(function(){ 
-								
-					draw_basic_lines(ctx,values_items);
-					
-					draw_variable_lines(ctx,stream,values_items);
 
-            }, values_items.speed_update);
             
 
  

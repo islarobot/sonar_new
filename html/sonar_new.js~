@@ -71,16 +71,9 @@ resolucion = vl.resolucion;
 	
 	var endAngleDeg = vl.max;
 	
-	//var startAngleDeg = 315;
-	//var endAngleDeg = 45;
-	
-
 	var context = id;
 
 
-	
-	
-   //var context = canvas.getContext('2d');
    context.beginPath();
 	context.rect(0, 0, w, h);
 	context.fillStyle = "black";
@@ -168,44 +161,41 @@ resolucion = vl.resolucion;
 	
 
 }
-
+ 
 
 
 function draw_variable_lines(id,stream,vl)
 	
 	{
+	//console.log(stream.length);
+	//console.log('pepe '+stream[stream.length-1].angle);
 	//console.log(stream);
-
-   	
-   	//console.log(stream[s]);
-   	
-    console.log(stream)
-    console.log(streamþ[0])
 	
+	var angulofacil = circumB2circumA(stream[stream.length-1].angle);
+	var angulofacil = stream[stream.length-1].angle;
 		
-	//last_angles_array = create_last_angles_array(circumB2circumA(angle),direc,4);
-		
-	//console.log(angle);			
-	//console.log(last_angles_array);
-				
-   var ctx = id;				
-				
+   var ctx = id;	
+   
+   			
+			var color2 = 170;
+			var color1 = 230;
+			
+			var limite;
+			if (angulofacil < vl.max && angulofacil > vl.max - vl.num_valores_delay*vl.resolucion_grados && stream[stream.length-1].direccion == 'l' || angulofacil > vl.min && angulofacil < vl.min + vl.num_valores_delay*vl.resolucion_grados && stream[stream.length-1].direccion == 'r') {
+			console.log('ff')	
+			}
+			
+			for (jj=stream.length-1;jj>=0;jj--) {	
+			
 		ctx.beginPath();
+		var  alfaradf = stream[jj].angle * (Math.PI/180);
 		
-
-		
-		
-		//   for (s in stream) {
-
-		//var kk = 255;
-		//var dd = 0.3;
-     var  alfaradf = stream[0].angle * (Math.PI/180);
-     var af;
-     var bf;
-     var a1f;
-     var b1f;
-     
-//console.log(alfaradf);
+     	var af;
+     	var bf;
+     	var a1f;
+     	var b1f;
+     	
+    
 
 			bf = vl.y_circum - vl.radius_circum * Math.cos(alfaradf);
 			af = vl.x_circum + vl.radius_circum * Math.sin(alfaradf);
@@ -216,26 +206,61 @@ function draw_variable_lines(id,stream,vl)
 			a1f = af + Math.sin(alfaradf);
 				     
       ctx.moveTo(vl.x_circum, vl.y_circum);
+      	
+     
+
+      	
       ctx.lineTo(a1f, b1f);
-
-		ctx.strokeStyle = rgbToHex(0,0,0);
+ ctx.strokeStyle = rgbToHex(0,color2,0);
+		color2 = color2 - 255/stream.length;
+				color2 = color2.toFixed(0);
 		ctx.stroke();
+				ctx.closePath();
 
 		
-      ctx.lineTo(a1f, b1f);
+		
+		}
+for (jj=stream.length-1;jj>=0;jj--) {	
+							ctx.beginPath();
+		
+		
+		
+		
 
-		ctx.strokeStyle = rgbToHex(0,255,0);
+			
+		var long_valor = vl.radius_circum * stream[jj].valor / 20;
+
+		var  alfaradf1 = (stream[jj].angle) * (Math.PI/180);
+		
+     	var af1;
+     	var bf1;
+     	var a1f1;
+     	var b1f1;
+     	
+    
+
+			bf1 = vl.y_circum - long_valor * Math.cos(alfaradf1);
+			af1 = vl.x_circum + long_valor * Math.sin(alfaradf1);
+					
+			//console.log(af)					
+					
+			b1f1 = bf1 - Math.cos(alfaradf1);
+			a1f1 = af1 + Math.sin(alfaradf1);
+				     
+      ctx.moveTo(vl.x_circum, vl.y_circum);
+   
+
+      	
+      ctx.lineTo(a1f1, b1f1);
+   	//console.log(color1)
+      ctx.strokeStyle = rgbToHex(color1,0,0);
+		color1 = color1 - 255/stream.length;
+		color1 = color1.toFixed(0);
 		ctx.stroke();
+		ctx.closePath();
 		
+
 		
-		//ctx.fillStyle = 'black';
-    //ctx.fillRect(0, 0, 300, 150);
-
-		//	ctx.font="20px Arial";
-	//ctx.fillStyle = 'white';
-
-	//ctx.fillText('Angle: '+circumB2circumA(angle),10,20);
-	//ctx.fillText('Direction: '+direc,10,40);	
-	//ctx.fillText('Value: '+valor,10,60);	
-	//	}
+		}
+		
 	}

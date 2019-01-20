@@ -9,7 +9,7 @@ direccion = JSON.parse(datos).inputDirection;
     
   var rad = degree*3.1416/180
   
-  var value = 10*Math.sin(rad).toFixed(2)+10;
+  var value = 10*Math.sin(30*rad).toFixed(2)+10;
     
   return JSON.stringify({angle:degree,direccion:direccion,data:value});
     
