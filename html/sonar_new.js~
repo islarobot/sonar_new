@@ -1,4 +1,8 @@
 
+function hasDuplicates(array) {
+    return (new Set(array)).size !== array.length;
+}
+
 
 function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
@@ -164,15 +168,47 @@ resolucion = vl.resolucion;
  
 
 
-function draw_variable_lines(id,stream,vl)
+function draw_variable_lines(id,stream,stream_angles,vl,a)
 	
 	{
+
+		if (hasDuplicates(stream_angles)) {
+			
+			
+			
+			let unique_angles = new Set();
+			for (gg=0;gg<stream_angles.length-1;gg++) {	
+			if (!unique_angles.has(stream_angles[gg])) {
+			unique_angles.add(stream_angles[gg]);
+			
+		}
+			}
+			
+			for (gg=stream_angles.length-1;gg>=0;gg--) {	
+			if (unique_angles.has(stream_angles[gg])) {
+			unique_angles.delete(stream_angles[gg]);
+			stream[gg].repeated = 0;
+			
+		}else {
+			stream[gg].repeated = 1;
+
+		}
+			}
+
+			console.log(stream);
+		}
+
+
+		//console.log(stream_angles);
+	//console.log(hasDuplicates(stream_angles));
+
 	//console.log(stream.length);
 	//console.log('pepe '+stream[stream.length-1].angle);
+	//console.log(a)
 	//console.log(stream);
 	
-	var angulofacil = circumB2circumA(stream[stream.length-1].angle);
-	var angulofacil = stream[stream.length-1].angle;
+	//var angulofacil = circumB2circumA(stream[stream.length-1].angle);
+	//var angulofacil = stream[stream.length-1].angle;
 		
    var ctx = id;	
    
@@ -180,13 +216,12 @@ function draw_variable_lines(id,stream,vl)
 			var color2 = 170;
 			var color1 = 230;
 			
-			var limite;
-			if (angulofacil < vl.max && angulofacil > vl.max - vl.num_valores_delay*vl.resolucion_grados && stream[stream.length-1].direccion == 'l' || angulofacil > vl.min && angulofacil < vl.min + vl.num_valores_delay*vl.resolucion_grados && stream[stream.length-1].direccion == 'r') {
-			console.log('ff')	
-			}
+
 			
 			for (jj=stream.length-1;jj>=0;jj--) {	
-			
+
+		
+
 		ctx.beginPath();
 		var  alfaradf = stream[jj].angle * (Math.PI/180);
 		
@@ -208,12 +243,22 @@ function draw_variable_lines(id,stream,vl)
       ctx.moveTo(vl.x_circum, vl.y_circum);
       	
      
-
+if (!hasDuplicates(stream_angles)) {
       	
       ctx.lineTo(a1f, b1f);
+      
+   }
+   //console.log(stream[jj].value); 
+   if (hasDuplicates(stream_angles) && stream[jj].repeated == 0) {
+      	//setTimeout(function(){ console.log("STOP") }, 30000);
+
+      ctx.lineTo(a1f, b1f);
+      
+   }
  ctx.strokeStyle = rgbToHex(0,color2,0);
-		color2 = color2 - 255/stream.length;
+		color2 = color2 - color2/(vl.num_valores_delay-60);
 				color2 = color2.toFixed(0);
+				//console.log(color2)
 		ctx.stroke();
 				ctx.closePath();
 
@@ -251,10 +296,21 @@ for (jj=stream.length-1;jj>=0;jj--) {
    
 
       	
+if (!hasDuplicates(stream_angles)) {
+      	
       ctx.lineTo(a1f1, b1f1);
+      
+   }
+   //console.log(stream[jj].value); 
+   if (hasDuplicates(stream_angles) && stream[jj].repeated == 0) {
+      	//setTimeout(function(){ console.log("STOP") }, 30000);
+
+      ctx.lineTo(a1f1, b1f1);
+      
+   }
    	//console.log(color1)
       ctx.strokeStyle = rgbToHex(color1,0,0);
-		color1 = color1 - 255/stream.length;
+		color1 = color1 - color1/(vl.num_valores_delay-60);
 		color1 = color1.toFixed(0);
 		ctx.stroke();
 		ctx.closePath();

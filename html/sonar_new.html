@@ -32,7 +32,7 @@
     </style>
 	<script type="text/javascript">
 		//parametros
-	var start = false;
+	var start = true;
 	var i = 0;	
 	function start_1() {
 		start = true;
@@ -163,14 +163,15 @@
 
 		var values_items = {
         	
-        		min:270, max:90, param_in:"A", state:"set", speed_transmision:100,min_value:0, max_value:10,
+        		min:200, max:160, param_in:"A", state:"set", speed_transmision:100,min_value:0, max_value:10,
         		
-        		x_circum:1000,y_circum:980,w_square:2000,h_square:1050,radius_circum:900,largo_pata:10,largo_texto:15,
+        		x_circum:1000,y_circum:980,w_square:2000,h_square:2000,radius_circum:900,largo_pata:10,largo_texto:15,
         		delta_negativos:12,resolucion:10,num_valores_delay:90, resolucion_grados:.5, speed_update:100
         		
         		}
         		
-			var stream = new Array();        		
+			var stream = new Array();
+			var stream_angles = new Array();        		        		
         		
 			canvas.width  = values_items.w_square;
 	canvas.height = values_items.h_square;;
@@ -272,22 +273,24 @@
 						var direccion1 = msg_in.inputDirection;
 						
 						var valor = msg_in.outputValue.toFixed(2);
-						
+						var repeated = 2;
 
-						var tres_valores = {angle:angle1,direccion:direccion1,valor:valor};
+						var tres_valores = {angle:angle1,direccion:direccion1,valor:valor,repeated:repeated};
 						stream.push(tres_valores);
+						stream_angles.push(angle1);
 												
 
 						//console.log(stream);
 						if (stream.length > values_items.num_valores_delay) {
 							stream.shift();
+							stream_angles.shift();
 						}
 							
 						//console.log(stream.length);
 						
 					draw_basic_lines(ctx,values_items);
 					
-					draw_variable_lines(ctx,stream,values_items);
+					draw_variable_lines(ctx,stream,stream_angles,values_items,angle1);
 
 					document.getElementById("content").innerHTML = angle1;
 					
