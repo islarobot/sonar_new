@@ -45,7 +45,7 @@ return JSON.stringify(output);
 funcion_conversion_ardu_node: function(data,mode,param)
 {
 
-data_a = JSON.parse(data);
+data_a = data;
 
 var output = {mode:mode,inputParam:param,outputParam:param,inputAngle:data_a.angle,inputDirection:data_a.direccion,outputValue:data_a.data};
 
