@@ -56,15 +56,27 @@ sp.on('open', function (err) {
  
 sp.on("data", function(data) {
 	
-	data_string = data.toString();
-	
-	data_int = parseInt(data_string,10)
 
-	if (!isNaN(data_int)) {
+	
+	data_string = data.toString();
+		
+	
+	angle_string = data_string.substr(0,data_string.lastIndexOf("A"));
+	value_string = data_string.substr(data_string.lastIndexOf("A")+1,data_string.lastIndexOf("V"));
+
+	angle_int = parseInt(angle_string);
+	value_int = parseInt(value_string);
+	
+	//console.log(angle_int);
+	//console.log(value_int);
+	
+
+
+	if (!isNaN(angle_int)) {
 
 			data_out_2 = arduino_functions.funcion_conversion_ardu_node(data_int,"data","A");
 			ipc.of.world.emit('message',data_out_2);
-			console.log(data_out_2);
+			//console.log(data_out_2);
 	}
 	//data_string = data_string.toFixed(2);
 	
@@ -85,8 +97,9 @@ sp.on("data", function(data) {
 
 ipc.of.world.on('message',function(data){
 
-var data_out = JSON.parse(data).inputAngle;
+var data_out = JSON.parse(data).inputAngle+JSON.parse(data).direction;
 
+console.log(data_out);
 
 //var data_out = arduino_functions.funcion_conversion_node_ardu(data);
 
@@ -97,7 +110,7 @@ var data_out = JSON.parse(data).inputAngle;
 if(arduino_connect){
 	
 	
-	console.log('---> 3 --->'+data_out);
+	//console.log('---> 3 --->'+data_out);
 	sp.write(data_out.toString()+'\n');
 	
 	}
