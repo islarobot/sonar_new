@@ -204,6 +204,7 @@
 	
 	var canvas = document.getElementById('myCanvas');
 
+
 		
         	
         	
@@ -242,6 +243,7 @@
             	//draw_car(ctx,values_items);
 				
 				
+				canvas.addEventListener("click", function (e) { getCursorPosition(canvas, e,values_items,socket,mode);});
 				
 				function interval_send(){ 
 	 

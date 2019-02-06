@@ -115,7 +115,7 @@ resolucion = vl.resolucion;
 
    context.arc(x, y, radius, startAngle, endAngle, false);
    //context.arc(0, 0, 1000, 200, 300, false);
-   context.lineWidth = 10;
+   context.lineWidth = 7;
        
    context.font = "10px Arial";
 
@@ -325,3 +325,44 @@ if (!hasDuplicates(stream_angles)) {
 		}
 		
 	}
+	
+	
+	
+	
+function getCursorPosition(canvas, event,vl,s,m) {
+    var rect = canvas.getBoundingClientRect();
+    var x = event.clientX - rect.left;
+    var y = event.clientY - rect.top;
+    //var x = event.clientX;
+    //var y = event.clientY;
+    var x_c = vl.x_circum;
+    var y_c = vl.y_circum;
+    var radius = vl.radius_circum;
+    
+    var jj = (x-x_c)*(x-x_c) + (y-y_c)*(y-y_c);
+    var kk = Math.sqrt(jj);
+    
+
+    
+    if (Math.abs(kk-radius).toFixed(0)<10) {
+    
+    var angulo = Math.asin((x-x_c)/kk);
+    
+    angulo = angulo*57.2958;
+    
+    if (m == 'manual') {
+    	
+   
+   	s.emit 	
+    	
+    }
+ 	}
+    
+    
+    
+    
+    
+    
+    
+    
+}
