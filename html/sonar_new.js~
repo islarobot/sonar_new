@@ -127,8 +127,7 @@ resolucion = vl.resolucion;
 	var endAngleDegD = endAngleDeg;
 	if (endAngleDegD < startAngleDegD) {endAngleDegD = endAngleDegD + 360;}
 
-	context.strokeStyle = rgbToHex(0,255,0);
-	context.stroke();
+	context.closePath();
 	context.beginPath();
 	context.lineWidth = 2;
 
