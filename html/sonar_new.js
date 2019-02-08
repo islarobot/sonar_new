@@ -323,6 +323,13 @@ if (!hasDuplicates(stream_angles)) {
 
 		
 		}
+		//draw_basic_lines(id,vl);
+		
+		
+		
+		
+		
+		
 		
 	}
 	

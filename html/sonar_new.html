@@ -4,6 +4,7 @@
         <title>Project Sonar</title>
 		<script src="http://localhost:8080/socket.io/socket.io.js"></script>    
         <script type="text/javascript" src="sonar_new.js"></script>
+<link rel="shortcut icon" href="#" />
 
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script> 
         
@@ -15,7 +16,7 @@
         		max:90, 
         		param_in	:"A0", 
         		state:"set", 
-        		speed_transmision:100,
+        		speed_transmision:20,
         		min_value:0, 
         		max_value:10,        		
         		x_circum:radio*1.1111111,
@@ -334,7 +335,7 @@
 							stream_angles.shift();
 						}
 							
-						console.log(valor);
+						//console.log(valor);
 						
 
 					draw_basic_lines(ctx,values_items);					
