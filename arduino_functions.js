@@ -4,14 +4,21 @@
 module.exports = {
   generate_amplitude_function: function (datos) {
     
-degree = JSON.parse(datos).inputAngle;
-direccion = JSON.parse(datos).inputDirection;  
-    
-  var rad = degree*3.1416/180
+var param = datos.substr(0,2);
+
+var larg = datos.length-1;
+var prim = datos.indexOf('_');
+var seg = datos.indexOf('_',prim+1);
+var ter = datos.indexOf('_',seg+1);
+
+var angulo = datos.substr(prim+1,seg-prim-1);
+var direccion = datos.substr(seg+1,ter-seg-1);
+
+ var rad = angulo*3.1416/180
   
-  var value = 10*Math.sin(30*rad).toFixed(2)+10;
-    
-  return JSON.stringify({angle:degree,direccion:direccion,data:value});
+ var value = Math.abs(50*Math.sin(rad).toFixed(2));
+ 
+ return param+'_'+angulo+'_'+direccion+'_'+value+'_\n';
     
   },
 
@@ -28,13 +35,13 @@ data_object = JSON.parse(data);
 
 var output;
 
-if (data_object.mode == 'data') {
+output = data_object.inputParam+'_'+data_object.inputAngle+'_'+data_object.inputDirection+'_\n'
 
-output = {inputAngle:data_object.inputAngle,inputDirection:data_object.inputDirection};
+
 	
-}
 
-return JSON.stringify(output);
+
+return output;
 
 },
 
@@ -42,14 +49,31 @@ return JSON.stringify(output);
 
 
 
-funcion_conversion_ardu_node: function(data,mode,param)
+funcion_conversion_ardu_node: function(datos)
 {
 
-data_a = data;
+var param = datos.substr(0,2);
 
-var output = {mode:mode,inputParam:param,outputParam:param,inputAngle:data_a.angle,inputDirection:data_a.direccion,outputValue:data_a.data};
+var larg = datos.length-1;
+var prim = datos.indexOf('_');
+var seg = datos.indexOf('_',prim+1);
+var ter = datos.indexOf('_',seg+1);
+var cuar = datos.indexOf('_',ter+1);
+
+var angulo = datos.substr(prim+1,seg-prim-1);
+var ang_int = parseInt(angulo);
+
+var direccion = datos.substr(seg+1,ter-seg-1);
+var valor = datos.substr(ter+1,cuar-ter-1);
+
+var output = {inputParam:param,inputAngle:angulo,inputDirection:direccion,outputValue:valor};
 
 var output_JSON = JSON.stringify(output);
+if (isNaN(ang_int)) {
+	
+var output_JSON = 'NA';
+}
+
 
 return output_JSON;
 

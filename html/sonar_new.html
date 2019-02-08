@@ -8,28 +8,29 @@
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script> 
         
         <script>
-        
+        var radio = 400;
         var values_items = {
         	
         		min:270, 
         		max:90, 
-        		param_in:"A", 
+        		param_in	:"A0", 
         		state:"set", 
         		speed_transmision:100,
         		min_value:0, 
         		max_value:10,        		
-        		x_circum:1000,
-        		y_circum:980,
-        		w_square:2000,
-        		h_square:2000,
-        		radius_circum:900,
-        		largo_pata:10,
-        		largo_texto:15,
-        		delta_negativos:12,
+        		x_circum:radio*1.1111111,
+        		y_circum:radio*1.0888888,
+        		w_square:radio*2.2222222,
+        		h_square:radio*2.2222222,
+        		radius_circum:radio,
+        		largo_pata:radio*0.0111111,
+        		largo_texto:radio*0.0166666,
+        		delta_negativos:radio*0.0133333,
         		resolucion:10,
         		num_valores_delay:90, 
-        		resolucion_grados:3, 
-        		speed_update:100
+        		resolucion_grados:1, 
+        		speed_update:100,
+        		max_amplitude_signal:50
         		
         		}
 			   
@@ -251,7 +252,7 @@
 	 			//generateOutputs(socket,min,max,speed)
 	 			 
 	 			
-	 			  var msg_out = {mode:"data",inputParam:values_items.param_in,inputAngle:i,inputDirection:direccion}
+	 			  var msg_out = {inputParam:values_items.param_in,inputAngle:i,inputDirection:direccion}
 	 			  var msg_json = JSON.stringify(msg_out);
 	 			  if (start == true) {
 	 			  socket.emit('event', msg_json);	
@@ -291,11 +292,13 @@
 					
 					//filtro por parámetro
 					
-					var param_received = msg_in.inputParam;	
+					var param_received = msg_in.inputParam;
+					
+					var angle_int = parseInt(msg_in.inputAngle);
 					
 											//console.log('--0--:'+msg_in.inputAngle);
 					
-					var diferencia_abs = Math.abs(last_angle - msg_in.inputAngle);					
+					var diferencia_abs = Math.abs(last_angle - angle_int);					
 					
 					
 					
@@ -303,20 +306,21 @@
 					
 					if (param_received == values_items.param_in && diferencia_abs < 2*values_items.resolucion_grados) {
 					
-						last_angle = msg_in.inputAngle;
+						last_angle = angle_int;
 						
 						
 					
-						var angle1 = circumA2circumB(msg_in.inputAngle);
+						var angle1 = circumA2circumB(angle_int);
 						
-												
+
 
 						
 
 						
 						var direccion1 = msg_in.inputDirection;
+
 						
-						var valor = msg_in.outputValue.toFixed(2);
+						var valor = parseFloat(msg_in.outputValue).toFixed(2);
 						var repeated = 2;
 
 						var tres_valores = {angle:angle1,direccion:direccion1,valor:valor,repeated:repeated};
@@ -330,17 +334,17 @@
 							stream_angles.shift();
 						}
 							
-						//console.log(stream.length);
+						console.log(valor);
 						
 
-					
+					draw_basic_lines(ctx,values_items);					
 					draw_variable_lines(ctx,stream,stream_angles,values_items,angle1);
 
-					document.getElementById("content").innerHTML = angle1;
+
 					
 
 					
-					document.getElementById("content1").innerHTML = message.value_number;					
+
 					
 					//drawmarcas_sonar('myCanvas', 1000, 980, 2000, 1050, values_items, 900, 10, 15, 12, 10, angle1, direccion1,contact_array,valor);
 			

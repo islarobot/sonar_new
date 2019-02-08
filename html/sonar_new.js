@@ -278,7 +278,7 @@ for (jj=stream.length-1;jj>=0;jj--) {
 		
 
 			
-		var long_valor = vl.radius_circum * stream[jj].valor / 20;
+		var long_valor = vl.radius_circum * stream[jj].valor / vl.max_amplitude_signal;
 
 		var  alfaradf1 = (stream[jj].angle) * (Math.PI/180);
 		
