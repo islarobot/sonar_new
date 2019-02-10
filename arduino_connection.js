@@ -1,7 +1,7 @@
 //// MODO DEVELOPMENT !!!!11
 
 process.env.NODE_ENV = 'production';
-process.env.NODE_ENV = 'development';
+//process.env.NODE_ENV = 'development';
 
 
 ///https://www.npmjs.com/package/virtual-serialport
@@ -42,7 +42,7 @@ if (process.env.NODE_ENV == 'development') {
   SerialPort = require('virtual-serialport');
 }
  
-var sp = new SerialPort(port_string, { baudRate: 57600 }); // still works if NODE_ENV is set to development!
+var sp = new SerialPort(port_string, { baudRate: 115200 }); // still works if NODE_ENV is set to development!
  
 
 ////  CUANDO SE ABRE LA CONEXION CON ARDUINO
@@ -57,7 +57,7 @@ sp.on('open', function (err) {
  
 sp.on("data", function(data) {
 	
-//console.log('lll'+data)
+	//console.log('ardu: '+data)
 	
 	var data_string = data.toString();
 	var data_json = arduino_functions.funcion_conversion_ardu_node(data_string);
@@ -67,7 +67,7 @@ sp.on("data", function(data) {
 			//console.log(data_out_2);
 	}
   	 //console.log("---> 6 ---->  " + data_string);
-    console.log("---> 6 ---->  " + data_json);
+    //console.log("---> 6 ---->  " + data_json);
     //ipc.of.world.emit('message',data_out_2);
                
 });

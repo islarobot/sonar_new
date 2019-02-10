@@ -1,5 +1,13 @@
 //arduino functions
-
+function zeroFill( number, width )
+{
+  width -= number.toString().length;
+  if ( width > 0 )
+  {
+    return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+  }
+  return number + ""; // always return a string
+}
 
 module.exports = {
   generate_amplitude_function: function (datos) {
@@ -28,20 +36,44 @@ var direccion = datos.substr(seg+1,ter-seg-1);
 funcion_conversion_node_ardu: function(data)
 {
 
+
+
 data_object = JSON.parse(data);
 
-//console.log("ssss")
-//console.log(data_object.inputAngle)
+/// bytes: 1 para el parametro. 2 para el angulo+direccion 1 para el valor 0-100 
 
-var output;
+// P000l999
 
-output = data_object.inputParam+'_'+data_object.inputAngle+'_'+data_object.inputDirection+'_\n'
+var param_string = data_object.inputParam.substr(1,3);
+
+var param_code = String.fromCharCode(param_string);
+
+var angle_string = data_object.inputAngle;
+
+var angle_float = 10*parseFloat(angle_string);
+
+var sign1 ='';
+
+if (angle_float<0) {
+	sign1 = 0;
+}else {
+	sign1 = 1;
+}
 
 
-	
+
+var angle_float_abs = Math.abs(angle_float);
+
+var angle_out = zeroFill(angle_float_abs,4);
+
+//console.log(angle_out);
+
+var output = param_code+sign1+angle_out+data_object.inputDirection;
+
+//console.log(output);
 
 
-return output;
+return output+'\n';
 
 },
 
@@ -52,21 +84,18 @@ return output;
 funcion_conversion_ardu_node: function(datos)
 {
 
-var param = datos.substr(0,2);
+var param = datos.substr(0,1);
 
-var larg = datos.length-1;
-var prim = datos.indexOf('_');
-var seg = datos.indexOf('_',prim+1);
-var ter = datos.indexOf('_',seg+1);
-var cuar = datos.indexOf('_',ter+1);
+var signo = datos.substr(1,1);
+var angulo = datos.substr(2,4);
 
-var angulo = datos.substr(prim+1,seg-prim-1);
-var ang_int = parseInt(angulo);
+var ang_int = parseFloat(angulo)/10;
+if (signo == '0') {ang_int = ang_int * (-1.0);}
 
-var direccion = datos.substr(seg+1,ter-seg-1);
-var valor = datos.substr(ter+1,cuar-ter-1);
+var direccion = datos.substr(6,1);
+var valor = datos.substr(7,4);
 
-var output = {inputParam:param,inputAngle:angulo,inputDirection:direccion,outputValue:valor};
+var output = {inputParam:param,inputAngle:ang_int,inputDirection:direccion,outputValue:valor};
 
 var output_JSON = JSON.stringify(output);
 if (isNaN(ang_int)) {
@@ -74,6 +103,7 @@ if (isNaN(ang_int)) {
 var output_JSON = 'NA';
 }
 
+console.log(output_JSON);
 
 return output_JSON;
 
