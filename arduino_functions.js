@@ -44,9 +44,9 @@ data_object = JSON.parse(data);
 
 // P000l999
 
-var param_string = data_object.inputParam.substr(1,3);
+var param_string = data_object.inputParam;
 
-var param_code = String.fromCharCode(param_string);
+//var param_code = String.fromCharCode(param_string);
 
 var angle_string = data_object.inputAngle;
 
@@ -68,7 +68,7 @@ var angle_out = zeroFill(angle_float_abs,4);
 
 //console.log(angle_out);
 
-var output = param_code+sign1+angle_out+data_object.inputDirection;
+var output = param_string+sign1+angle_out+data_object.inputDirection;
 
 //console.log(output);
 
@@ -98,12 +98,13 @@ var valor = datos.substr(7,4);
 var output = {inputParam:param,inputAngle:ang_int,inputDirection:direccion,outputValue:valor};
 
 var output_JSON = JSON.stringify(output);
-if (isNaN(ang_int)) {
+if (datos.length != 12) {
 	
 var output_JSON = 'NA';
 }
 
-console.log(output_JSON);
+
+//console.log(output_JSON);
 
 return output_JSON;
 

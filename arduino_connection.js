@@ -27,6 +27,8 @@ ipc.config.silent = true;
 
 ipc.connectTo('world');
 
+
+
 //var serialPort = new SerialPort(port_string, {    baudRate: 9600});
 
 //// INICIALIZO CONEXION A ARDU A FALSE.
@@ -50,6 +52,7 @@ var sp = new SerialPort(port_string, { baudRate: 115200 }); // still works if NO
 sp.on('open', function (err) {
  
    arduino_connect = true; 
+   console.log('Arduino connected');
  
  
  
@@ -57,7 +60,7 @@ sp.on('open', function (err) {
  
 sp.on("data", function(data) {
 	
-	//console.log('ardu: '+data)
+	console.log('ardu: '+data)
 	
 	var data_string = data.toString();
 	var data_json = arduino_functions.funcion_conversion_ardu_node(data_string);
@@ -79,7 +82,7 @@ sp.on("data", function(data) {
 
 ///////  ------- 3 -----------  RECIBO INFO DE SERVER.JS Y LA REENVIO A ARDUINO TAL CUAL. AQUI NECESITO FUNCION DE CONVERSION.
 
-
+ipc.of.world.on('connect',function(){console.log('ipc client connected');});
 ipc.of.world.on('message',function(data){
 
 
@@ -93,7 +96,7 @@ var data_out = arduino_functions.funcion_conversion_node_ardu(data);
 if(arduino_connect){
 	
 	
-	//console.log('---> 3 --->'+data_out);
+	console.log('node: '+data_out);
 	sp.write(data_out);
 	
 	}

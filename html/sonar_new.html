@@ -17,9 +17,9 @@
         	
         		min:270, 
         		max:90, 
-        		param_in	:"P001",   //hasta 255 
+        		param_in	:"A",   //hasta 255 
         		state:"set", 
-        		speed_transmision:50,
+        		speed_transmision:20,
         		min_value:0, 
         		max_value:10,        		
         		x_circum:radio*1.1111111,
@@ -31,8 +31,8 @@
         		largo_texto:radio*0.0166666,
         		delta_negativos:radio*0.0133333,
         		resolucion:10,
-        		num_valores_delay:90, 
-        		resolucion_grados:0.5, 
+        		num_valores_delay:100, 
+        		resolucion_grados:0.1, 
         		speed_update:100,
         		max_amplitude_signal:100
         		
@@ -266,7 +266,7 @@
 	 			  socket.emit('event', msg_json);	
 	 			  }
 	 			  
-	 			  //console.log('--0--'+msg_out.inputAngle)
+	 			  console.log('--0--'+msg_out.inputAngle)
   					
   					if (i>=max) {direccion = 'l';}
   					if (i<=min) {direccion = 'r';}

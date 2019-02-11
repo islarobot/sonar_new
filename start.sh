@@ -12,5 +12,5 @@ gnome-terminal -- node server.js
 
 delay 2
 
-gnome-terminal -- node arduino_connection_definitive.js 0
+gnome-terminal -- node arduino_connection.js 0
 

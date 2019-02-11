@@ -25,6 +25,8 @@ server.listen(8080);
 
 io.on('connection', function(socket) {  
 
+	console.log('http socket connected')
+
 	global_socket_http = socket;
     //socket.emit('announcements', { message: 'A new user has joined!' });
 
@@ -48,7 +50,7 @@ ipc.serve();
 
 ipc.server.start();
 
-ipc.server.on('start',function(){console.log('start');});
+ipc.server.on('start',function(){console.log('ipc server started');});
 
 ipc.server.on('connect',function(socket){
 	
@@ -63,7 +65,7 @@ connection_stablished = 1;
 
 ipc.server.on('message',function(data){
 	
-console.log('---> 7 ----> '+data);
+//console.log('---> 7 ----> '+data);
 
     global_socket_http.emit('stream', data);
 
